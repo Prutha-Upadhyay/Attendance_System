@@ -5,7 +5,7 @@
 **/.env
 
 # Config
-**/config
+**/.firebaseServiceAccount.json
 
 # Firebase
 **/.firebase/
