@@ -4,6 +4,9 @@
 # Environment files
 **/.env
 
+# Config
+**/config
+
 # Firebase
 **/.firebase/
 
