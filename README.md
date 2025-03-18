@@ -15,7 +15,7 @@ cd frontend && npm install
 cd ../backend && npm install
 ```
 
-### 2️⃣ Copy the necessary env and congig files
+### 2️⃣ Copy the necessary env and config files
 ```sh
 
 ```
