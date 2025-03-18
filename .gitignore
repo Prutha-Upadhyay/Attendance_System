@@ -4,8 +4,9 @@
 # Environment files
 **/.env
 
-# Config
-**/.firebaseServiceAccount.json
+# Ignore backend config folder
+backend/config/
+
 
 # Firebase
 **/.firebase/
