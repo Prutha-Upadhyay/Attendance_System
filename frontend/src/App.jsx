@@ -205,6 +205,7 @@ import Login from "./pages/Login";
 
 function App() {
     return (
+        <div className="bg-gray-900!">
         <Router>
             <Routes>
                 <Route path="/" element={<TeacherDashboard />} />
@@ -212,6 +213,7 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
             </Routes>
         </Router>
+        </div>
     );
 }
 
