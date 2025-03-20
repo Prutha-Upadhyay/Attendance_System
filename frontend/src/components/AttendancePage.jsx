@@ -156,23 +156,25 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth } from "../firebaseConfig";
+import AttendanceHistory from "./AttendanceHistory ";
+
+const API_URL = "http://localhost:5000"; // Change if deployed
 
 const AttendancePage = () => {
   const [searchParams] = useSearchParams();
   const attendanceId = searchParams.get("id"); // Read attendance ID from QR Code
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState(null);
-  const navigate = useNavigate(); // Use React Router navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-        requestLocation(); // Request location only once after login
+        requestLocation();
       } else {
-        navigate("/login"); // Better than window.location.href
+        navigate("/login");
       }
     });
 
@@ -199,66 +201,39 @@ const AttendancePage = () => {
     );
   };
 
-  useEffect(() => {
-    if (location) {
-      console.log("Updated Location:", location);
-    }
-  }, [location]);
-
   const markAttendance = async () => {
     if (!user || !location) {
       alert("Please wait until your location is fetched!");
       return;
     }
+    console.log(user)
+    try {
+      const res = await fetch(`${API_URL}/mark-attendance`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentId: user.uid,
+          studentName:user.displayName,
+          attendanceId,
+          lat: location.lat,
+          long: location.long,
+          lastSignInTime:user.lastSignInTime
+        }),
+      });
 
-    console.log("User:", user);
-    console.log("Location:", location);
-
-    const docRef = doc(db, "attendance", attendanceId);
-    const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists() || !docSnap.data().active) {
-      alert("Invalid or expired QR Code!");
-      return;
+      const data = await res.json();
+      if (res.ok) {
+        alert("Attendance Marked!");
+        navigate("/");
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      console.error("Error marking attendance:", error);
+      alert("Something went wrong!");
     }
-
-    const classLat = 23.03206226016211; // Example: Classroom Latitude
-    const classLong = 72.46849323542574; // Example: Classroom Longitude
-    const distance = getDistance(
-      location.lat,
-      location.long,
-      classLat,
-      classLong
-    );
-
-    if (distance > 1000) {
-      alert("You must be inside the classroom to mark attendance!");
-      return;
-    }
-
-    await setDoc(
-      docRef,
-      { marked: [...(docSnap.data().marked || []), user.uid] },
-      { merge: true }
-    );
-
-    alert("Attendance Marked!");
-    navigate("/")
-  };
-
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371e3; // Earth radius in meters
-    const φ1 = (lat1 * Math.PI) / 180;
-    const φ2 = (lat2 * Math.PI) / 180;
-    const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-    const Δλ = ((lon2 - lon1) * Math.PI) / 180;
-
-    const a =
-      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c; // Distance in meters
   };
 
   return (
@@ -267,6 +242,7 @@ const AttendancePage = () => {
       <button onClick={markAttendance} disabled={!location}>
         {location ? "Mark Present" : "Fetching Location..."}
       </button>
+      {/* <button><AttendanceHistory user={user}/></button> */}
     </div>
   );
 };

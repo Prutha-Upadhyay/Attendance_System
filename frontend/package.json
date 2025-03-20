@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.10",
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "axios": "^1.8.3",
     "dotenv": "^16.4.7",
     "firebase": "^11.4.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
+    "react-csv": "^2.2.2",
     "react-dom": "^19.0.0",
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-router-dom": "^7.3.0"
