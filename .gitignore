@@ -4,9 +4,6 @@
 # Environment files
 **/.env
 
-# Ignore backend config folder
-backend/config/
-
 
 # Firebase
 **/.firebase/
