@@ -1,28 +1,34 @@
 import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import { db } from "../firebaseConfig";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+
+const API_URL = "http://localhost:5000"; // Change if deployed
 
 const TeacherDashboard = () => {
   const [qrData, setQrData] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const generateQRCode = async () => {
-    setIsLoading(true);
-    const uniqueId = Math.random().toString(36).substr(2, 9);
-    const attendanceData = {
-      id: uniqueId,
-      createdAt: serverTimestamp(),
-      active: true, // Indicates it's a valid QR code
-    };
-
     try {
-      await setDoc(doc(db, "attendance", uniqueId), attendanceData);
-      setQrData(`http://192.168.80.61:5173/attendance?id=${uniqueId}`);
+      const res = await fetch(`${API_URL}/generate-attendance`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          teacherId: "teacher123", // Replace with actual teacher ID
+          classLat: 23.032097083190017,
+          classLong: 72.46854336833768,
+        }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+      if (res.ok) {
+        setQrData(data.qrCode);
+      } else {
+        alert("Error generating QR Code!");
+      }
     } catch (error) {
-      console.error("Error generating QR code:", error);
-    } finally {
-      setIsLoading(false);
+      console.error("QR Code Error:", error);
+      alert("Failed to generate QR Code!");
     }
   };
 
