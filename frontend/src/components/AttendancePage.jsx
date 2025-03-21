@@ -11,7 +11,14 @@ const AttendancePage = () => {
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState(null);
   const navigate = useNavigate();
+  
+  const id = searchParams.get("id");
 
+  useEffect(() => {
+    if (id) {
+      sessionStorage.setItem("qrId", id); // Store ID temporarily
+    }
+  }, [id]); 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {

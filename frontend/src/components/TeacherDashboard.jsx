@@ -6,6 +6,7 @@ const API_URL = "https://attendance-system-etnw.onrender.com"; // Change if depl
 const TeacherDashboard = () => {
   const [qrData, setQrData] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
 
   const generateQRCode = async () => {
     try {
@@ -14,7 +15,7 @@ const TeacherDashboard = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           teacherId: "teacher123", // Replace with actual teacher ID
-          classLat: 23.048674956169467, 
+          classLat: 23.048674956169467,
           classLong: 72.52511868134404,
         }),
       });
@@ -63,7 +64,7 @@ const TeacherDashboard = () => {
             </p>
             <a
               href={qrData}
-              target="_blank"
+              target="_self"
               rel="noopener noreferrer"
               className="text-blue-400 hover:underline"
             >
