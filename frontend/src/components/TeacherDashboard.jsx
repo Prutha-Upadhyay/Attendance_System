@@ -14,8 +14,8 @@ const TeacherDashboard = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           teacherId: "teacher123", // Replace with actual teacher ID
-          classLat: 23.032097083190017,
-          classLong: 72.46854336833768,
+          classLat: 23.048674956169467, 
+          classLong: 72.52511868134404,
         }),
       });
 

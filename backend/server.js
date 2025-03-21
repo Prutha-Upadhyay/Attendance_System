@@ -308,7 +308,8 @@ function getDistance(lat1, lon1, lat2, lon2) {
 // 🎯 Student Marks Attendance with Location Check
 app.post("/mark-attendance", async (req, res) => {
 try {
-  const { attendanceId, studentId, studentName, studentLat, studentLong } = req.body;
+  const { attendanceId, studentId, studentName, lat, long, lastSignInTime } = req.body;
+
   const markedAt = admin.firestore.Timestamp.now();
 
   const attendanceRef = db.collection("attendance").doc(attendanceId);
@@ -324,7 +325,7 @@ try {
   }
 
   // 🔥 Check if student is inside the classroom (within 10 meters)
-  const distance = getDistance(attendanceData.classLat, attendanceData.classLong, studentLat, studentLong);
+  const distance = getDistance(attendanceData.classLat, attendanceData.classLong, lat, long);
   if (distance > 1000) {  // 10 meters threshold
     return res.status(403).json({ error: "You are not inside the classroom" });
   }
