@@ -4,8 +4,6 @@
 # Environment files
 **/.env
 
-config/firebaseServiceAccount.json
-
 
 # Firebase
 **/.firebase/
@@ -14,3 +12,4 @@ config/firebaseServiceAccount.json
 .DS_Store
 Thumbs.db
 backend/config/firebaseServiceAccount.json
+
