@@ -241,7 +241,7 @@ import { db, admin } from "./firebaseConfig.js";
 const app = express();
 
 app.use(cors({ 
-  origin: "https://attendance-system-8d55e.web.app/", 
+  origin: "https://attendance-system-8d55e.web.app", 
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));

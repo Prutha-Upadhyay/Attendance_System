@@ -159,7 +159,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import AttendanceHistory from "./AttendanceHistory ";
 
-const API_URL = "http://localhost:5000"; // Change if deployed
+const API_URL = "https://attendance-system-etnw.onrender.com"; // Change if deployed
 
 const AttendancePage = () => {
   const [searchParams] = useSearchParams();

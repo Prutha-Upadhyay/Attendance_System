@@ -29,7 +29,7 @@
 import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
-const API_URL = "http://localhost:5000"; // Change if deployed
+const API_URL = "https://attendance-system-etnw.onrender.com"; // Change if deployed
 
 const TeacherDashboard = () => {
   const [qrData, setQrData] = useState("");
