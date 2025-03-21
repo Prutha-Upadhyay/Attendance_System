@@ -4,6 +4,8 @@
 # Environment files
 **/.env
 
+config/firebaseServiceAccount.json
+
 
 # Firebase
 **/.firebase/
@@ -11,3 +13,4 @@
 # OS-specific files
 .DS_Store
 Thumbs.db
+backend/config/firebaseServiceAccount.json
