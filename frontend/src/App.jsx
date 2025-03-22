@@ -202,6 +202,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TeacherDashboard from "./components/TeacherDashboard";
 import AttendancePage from "./components/AttendancePage";
 import Login from "./pages/Login";
+import AttendanceHistory from "./components/AttendanceHistory ";
 
 function App() {
     return (
@@ -211,6 +212,7 @@ function App() {
                 <Route path="/" element={<TeacherDashboard />} />
                 <Route path="/attendance" element={<AttendancePage />} />
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/dashboard" element={<AttendanceHistory/>}/>
             </Routes>
         </Router>
         </div>

@@ -344,6 +344,32 @@ try {
 }
 });
 
+// Endpoint to fetch attendance records by ID
+app.post("/fetch-attendance", async (req, res) => {
+    try {
+        const { id } = req.body; // Extract the ID from the URL parameter
+
+        // Query the attendanceRecords collection where attendanceId matches the provided ID
+        const attendanceRecordsRef = db.collection("attendance");
+        const querySnapshot = await attendanceRecordsRef.where("id", "==", id).get();
+        console.log("querysanpshot : ",querySnapshot)
+        if (querySnapshot.empty) {
+            return res.status(404).json({ error: "No attendance records found for the given ID" });
+        }
+
+        // Prepare the response data
+        const attendanceRecords = [];
+        querySnapshot.forEach((doc) => {
+            attendanceRecords.push(doc.data());
+        });
+
+        res.json({ success: true, attendanceRecords });
+    } catch (error) {
+        console.error("Error fetching attendance records:", error);
+        res.status(500).json({ error: "Error fetching attendance records" });
+}
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
