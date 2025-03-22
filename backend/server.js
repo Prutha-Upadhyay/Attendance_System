@@ -326,7 +326,7 @@ try {
 
   // 🔥 Check if student is inside the classroom (within 10 meters)
   const distance = getDistance(attendanceData.classLat, attendanceData.classLong, lat, long);
-  if (distance > 1000) {  // 10 meters threshold
+  if (distance > 3000) {  // 30 meters threshold
     return res.status(403).json({ error: "You are not inside the classroom" });
   }
 
