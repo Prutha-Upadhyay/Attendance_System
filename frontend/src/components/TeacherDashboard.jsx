@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import { Link } from "react-router-dom";
 
 const API_URL = "https://attendance-system-etnw.onrender.com"; // Change if deployed
 
@@ -9,6 +10,7 @@ const TeacherDashboard = () => {
   
 
   const generateQRCode = async () => {
+    setIsLoading(true)
     try {
       const res = await fetch(`${API_URL}/generate-attendance`, {
         method: "POST",
@@ -23,19 +25,23 @@ const TeacherDashboard = () => {
       const data = await res.json();
       console.log(data);
       if (res.ok) {
+
         setQrData(data.qrCode);
+        setIsLoading(false);
       } else {
         alert("Error generating QR Code!");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("QR Code Error:", error);
       alert("Failed to generate QR Code!");
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 flex flex-col items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center border border-gray-700">
+      <div className="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-lg w-full text-center border border-gray-700">
         <p className="text-4xl font-roboto text-white mb-4">Attendify</p>
         <p className="text-gray-400 mb-6">
           Generate a QR code for your class attendance.
@@ -48,6 +54,9 @@ const TeacherDashboard = () => {
         >
           {isLoading ? "Generating..." : "Generate QR Code"}
         </button>
+        <Link to="/dashboard" className="mx-2 bg-gray-500 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg ">
+          View Attendance History
+          </Link>
 
         {qrData && (
           <div className="mt-8">

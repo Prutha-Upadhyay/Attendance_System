@@ -47,4 +47,30 @@ router.post("/mark-attendance", async (req, res) => {
     }
 });
 
+// Endpoint to fetch attendance records by ID
+router.post("/fetch-attendance", async (req, res) => {
+    try {
+        const { id } = req.body; // Extract the ID from the URL parameter
+
+        // Query the attendanceRecords collection where attendanceId matches the provided ID
+        const attendanceRecordsRef = db.collection("attendanceRecords");
+        const querySnapshot = await attendanceRecordsRef.where("attendanceId", "==", id).get();
+
+        if (querySnapshot.empty) {
+            return res.status(404).json({ error: "No attendance records found for the given ID" });
+        }
+
+        // Prepare the response data
+        const attendanceRecords = [];
+        querySnapshot.forEach((doc) => {
+            attendanceRecords.push(doc.data());
+        });
+
+        res.json({ success: true, attendanceRecords });
+    } catch (error) {
+        console.error("Error fetching attendance records:", error);
+        res.status(500).json({ error: "Error fetching attendance records" });
+    }
+});
+
 export default router;
